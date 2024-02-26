@@ -1,6 +1,9 @@
 # compiled output
-/dist
-/node_modules
+api-gateway/dist
+api-gateway/node_modules
+
+micro/dist
+micro/node_modules
 
 # Logs
 logs
