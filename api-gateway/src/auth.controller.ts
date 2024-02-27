@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { LoginDTO, RegisterDTO } from './model';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { QueryDTO, RegisterDTO } from './model';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -18,17 +18,21 @@ export class AuthController {
       },
     });
   }
-  @Get('/login')
-  createUser(@Body() payload: LoginDTO) {
-    console.log('🚀 ~ AuthController ~ createUser ~ payload:', payload);
-    return this.client.send({ cmd: 'AUTH_LOGIN' }, payload);
+
+  // How to handle the request with has param
+  @Get('/login/:username')
+  createUser(@Param('username') username: string) {
+    return this.client.send({ cmd: 'AUTH_LOGIN' }, { username: username });
   }
 
   @Post('/register')
   getUser(@Body() payload: RegisterDTO) {
-    console.log('🚀 ~ AuthController ~ getUser ~ payload:', payload);
-    console.log('hello');
-
     return this.client.send({ cmd: 'AUTH_REGISTER' }, payload);
+  }
+
+  // Gateway with Query Data
+  @Post('/print-name')
+  printName(@Query() queryData: QueryDTO) {
+    return this.client.send({ cmd: 'QUERY_DATA_PRINT' }, queryData);
   }
 }
