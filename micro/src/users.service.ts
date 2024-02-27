@@ -17,4 +17,8 @@ export class UserService {
   getUserByUsername(username) {
     return this.USERS.find((user) => user.username === username);
   }
+
+  getSentence(data) {
+    return data.firstName + data.lastName;
+  }
 }
