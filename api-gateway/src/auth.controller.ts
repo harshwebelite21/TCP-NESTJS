@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { RegisterDTO } from './model';
+import { QueryDTO, RegisterDTO } from './model';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -22,7 +22,7 @@ export class AuthController {
   // How to handle the request with has param
   @Get('/login/:username')
   createUser(@Param('username') username: string) {
-    return this.client.send({ cmd: 'AUTH_LOGIN' }, username);
+    return this.client.send({ cmd: 'AUTH_LOGIN' }, { username: username });
   }
 
   @Post('/register')
@@ -32,7 +32,7 @@ export class AuthController {
 
   // Gateway with Query Data
   @Post('/print-name')
-  printName(@Query() queryData) {
+  printName(@Query() queryData: QueryDTO) {
     return this.client.send({ cmd: 'QUERY_DATA_PRINT' }, queryData);
   }
 }
